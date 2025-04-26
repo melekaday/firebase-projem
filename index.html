@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Authentication</title>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+
+        // Firebase yapılandırması
+        const firebaseConfig = {
+            apiKey: "AIzaSyC9EV87kMFra4I0aPQll2rpdtCymHwiJVA",
+            authDomain: "fir-projem-c3512.firebaseapp.com",
+            projectId: "fir-projem-c3512",
+            storageBucket: "fir-projem-c3512.appspot.com",
+            messagingSenderId: "421306947135",
+            appId: "1:421306947135:web:a265d87a1983d463840a8a",
+            measurementId: "G-2453QSTZ6J"
+        };
+
+        // Firebase'i başlat
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Kullanıcı kaydı fonksiyonu
+        window.registerUser = function() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log("Kullanıcı kaydedildi:", user);
+                    alert("Kayıt başarılı!");
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.error("Hata:", errorCode, errorMessage);
+                    alert("Hata: " + errorMessage);
+                });
+        }
+
+        // Giriş yapma fonksiyonu
+        window.loginUser = function() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log("Giriş başarılı:", user);
+                    alert("Giriş başarılı!");
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.error("Hata:", errorCode, errorMessage);
+                    alert("Hata: " + errorMessage);
+                });
+        }
+
+        // Şifre sıfırlama fonksiyonu
+        window.resetPassword = function() {
+            const email = document.getElementById("email").value;
+            sendPasswordResetEmail(auth, email)
+                .then(() => {
+                    alert("Şifre sıfırlama linki gönderildi!");
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.error("Hata:", errorCode, errorMessage);
+                    alert("Hata: " + errorMessage);
+                });
+        }
+    </script>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Firebase Kullanıcı Kaydı ve Giriş</h1>
+
+        <!-- Kullanıcıdan email ve şifre alınacak inputlar -->
+        <input type="email" id="email" placeholder="Email" /><br><br>
+        <input type="password" id="password" placeholder="Şifre" /><br><br>
+
+        <!-- Kayıt Ol ve Giriş Yap butonları -->
+        <button onclick="registerUser()">Kayıt Ol</button><br><br>
+        <button onclick="loginUser()">Giriş Yap</button><br><br>
+        
+        <!-- Şifremi Unuttum linki -->
+        <a href="#" onclick="resetPassword()" style="color: blue; text-decoration: underline;">Şifremi Unuttum</a>
+    </div>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</body>
+</html>
