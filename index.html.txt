@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Authentication</title>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+
+</head>
+<body>
+    <h1>Firebase Authentication and Firestore</h1>
+    
+    <!-- Burada kullanıcı kaydı, giriş işlemleri için HTML elemanlarını ekle -->
+    
+    <script>
+        // Firebase Konfigürasyon Bilgileri
+        const firebaseConfig = {
+            apiKey: "AIzaSyC9EV87kMFra4I0aPQll2rpdtCymHwiJVA",
+            authDomain: "fir-projem-c3512.firebaseapp.com",
+            projectId: "fir-projem-c3512",
+            storageBucket: "fir-projem-c3512.firebasestorage.app",
+            messagingSenderId: "421306947135",
+            appId: "1:421306947135:web:a265d87a1983d463840a8a",
+            measurementId: "G-2453QSTZ6J"
+        };
+
+        // Firebase'i başlat
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>
+</body>
+</html>
+<script>
+    // Kullanıcı kaydı yapma
+    function registerUser() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        
+        auth.createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Başarıyla kaydoldu
+                const user = userCredential.user;
+                console.log("Kullanıcı kaydedildi:", user);
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.error("Hata:", errorCode, errorMessage);
+            });
+    }
+</script>
